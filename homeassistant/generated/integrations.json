@@ -785,6 +785,12 @@
       "config_flow": false,
       "iot_class": "local_polling"
     },
+    "chicken_coop": {
+      "name": "Chicken coop",
+      "integration_type": "hub",
+      "config_flow": true,
+      "iot_class": "assumed_state"
+    },
     "circuit": {
       "name": "Unify Circuit",
       "integration_type": "hub",
