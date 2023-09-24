@@ -1,11 +1,17 @@
 """Support for Homekit covers."""
 from __future__ import annotations
 
+import time
+
+from RPi import GPIO
+
 from homeassistant.components.cover import CoverEntity, CoverEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.device_registry import DeviceInfo
 
 from .const import CONF_DEVICE_ID, CONF_DEVICE_NAME, DOMAIN
+
+# from .uart import UART
 
 
 # ODO add device
@@ -25,6 +31,9 @@ class DummyCover(CoverEntity):
         self._is_open = False
         self._device_id = conf.data[CONF_DEVICE_ID]
         self._device_name = conf.data[CONF_DEVICE_NAME]
+        # self._uart = UART()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(16, GPIO.OUT)
 
     @property
     def unique_id(self) -> str | None:
@@ -73,18 +82,28 @@ class DummyCover(CoverEntity):
         """Open the cover."""
         # => Perform call to Chicken coop via HC12.
 
+        GPIO.output(16, GPIO.HIGH)  # Turn on the LED
+        time.sleep(1)  # Wait for 1 second
+        GPIO.output(16, GPIO.LOW)  # Turn off the LED
+        time.sleep(1)  # Wait for 1 second
+
         # <= Wait until we have confirmation that the message was received well.
         # The confirmation contains the current state (open/closed).
         # Retry after 1 second, keep on trying (5 times) until we get OK back
         # Keep track of sequence number.
 
         # => Send OK back. (Receiver will stop sending previous message)
-
+        # message = bytearray([0x01, 0x02])
+        # self._uart.send_message()
         self._is_open = True
 
         self.async_write_ha_state()
 
     async def async_close_cover(self, **kwargs):
         """Close the cover."""
+        GPIO.output(16, GPIO.HIGH)  # Turn on the LED
+        time.sleep(1)  # Wait for 1 second
+        GPIO.output(16, GPIO.LOW)  # Turn off the LED
+        time.sleep(1)  # Wait for 1 second
         self._is_open = False
         self.async_write_ha_state()

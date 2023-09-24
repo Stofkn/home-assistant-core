@@ -1497,6 +1497,7 @@ pysensibo==1.0.33
 pyserial-asyncio==0.6
 
 # homeassistant.components.acer_projector
+# homeassistant.components.chicken_coop
 # homeassistant.components.crownstone
 # homeassistant.components.usb
 # homeassistant.components.zha

@@ -7,7 +7,7 @@
   "documentation": "https://www.home-assistant.io/integrations/chicken_coop",
   "homekit": {},
   "iot_class": "assumed_state",
-  "requirements": [],
+  "requirements": ["pyserial==3.5"],
   "ssdp": [],
   "zeroconf": []
 }
